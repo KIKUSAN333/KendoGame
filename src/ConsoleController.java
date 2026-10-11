@@ -22,9 +22,14 @@ public class ConsoleController implements ActionListener {
 		= new BufferedReader(new InputStreamReader(System.in));
 		
 		//入力したキーのプロセスを行う
-		String line = null;
-		while ((line = reader.readLine()) != null) 
-			model.process(line);
+		try {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (!line.isEmpty()) model.process(line);
+			}
+		} finally {
+			timer.stop();
+		}
 		
 	}
 	

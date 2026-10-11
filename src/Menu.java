@@ -119,7 +119,7 @@ public class Menu {
 
         view.drawString("f:decide", HOWTOPLAY_BAR_X, HOWTOPLAY_BAR1_Y);
         view.drawString("w:Move up", HOWTOPLAY_BAR_X, HOWTOPLAY_BAR2_Y);
-        view.drawString("w:Move down", HOWTOPLAY_BAR_X, HOWTOPLAY_BAR3_Y);
+        view.drawString("s:Move down", HOWTOPLAY_BAR_X, HOWTOPLAY_BAR3_Y);
         view.drawString("q:Exit", HOWTOPLAY_BAR_X, HOWTOPLAY_BAR4_Y);
        
         //メニュー画面でのそれぞれ描画するもの

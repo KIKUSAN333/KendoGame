@@ -48,6 +48,7 @@ public class Model {
 	
 	//排他処理を行う
 	public synchronized void process(String event) {
+		if (event == null || event.isEmpty()) return;
 		
 		//メニュー画面にいるときの選択を受け付ける
 		if(menu.getInMenu()) {
@@ -89,7 +90,7 @@ public class Model {
 				menu.goMenu();
 			}
 			
-		    if(event == "TIME_ELAPSED") {
+		    if(event.equals("TIME_ELAPSED")) {
 		        Bullet bullet = new Bullet(0, 22, 1, 0, '-');
 		        bullets.add(bullet);
 		    }

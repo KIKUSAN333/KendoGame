@@ -105,13 +105,16 @@ public class ConsoleView {
 
 	public void paint() {
 		StringBuffer s = new StringBuffer();
+		boolean ansi = Boolean.getBoolean("kendo.ansi");
+		if (ansi) s.append("\033[H");
 		for (int y = 0; y < HEIGHT; y++) {
 			for (int x = 0; x < WIDTH; x++) {
 				s.append(screen[y][x]);
 			}
-			s.append("\n");
+			if (!ansi || y < HEIGHT - 1) s.append("\n");
 		}
-		System.out.println(s);
+		System.out.print(s);
+		System.out.flush();
 	}
 	
 	public void put(char c,int x,int y) {
