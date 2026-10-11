@@ -1,10 +1,11 @@
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.URL;
+import java.io.BufferedWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 
 public class Ranking {
+	private final Path rankingPath;
 
 	private final static int COL1 = 18;
 	private final static int COL2 = 19;
@@ -31,7 +32,11 @@ public class Ranking {
 	
 	
 	public Ranking() {
-		super();
+		this(Path.of("data", "ranking.txt"));
+	}
+
+	Ranking(Path rankingPath) {
+		this.rankingPath = rankingPath;
 		names = new String[5];
 		scores = new int[5];
 		isAcceptingInput = false;
@@ -99,34 +104,29 @@ public class Ranking {
 	
 
 	public void readRankingText()throws Exception{
-		URL textURL = getClass().getResource("ranking.txt");
-		BufferedReader reader = new BufferedReader(
-		new InputStreamReader(textURL.openStream()));
-		String line;
-		
-
-		int count = 0;
-		while ((line = reader.readLine()) != null) {
-			names[count] = line;
-			
-			if((line = reader.readLine()) != null) {;
-				scores[count] = Integer.parseInt(line);
+		// 保存データは素材とは別のファイルから読み込みます。
+		try (BufferedReader reader = Files.newBufferedReader(rankingPath, StandardCharsets.UTF_8)) {
+			String line;
+			int count = 0;
+			while (count < names.length && (line = reader.readLine()) != null) {
+				names[count] = line;
+				if ((line = reader.readLine()) != null) {
+					scores[count] = Integer.parseInt(line);
+				}
+				count++;
 			}
-			
-			count++;
-			
 		}
 	}
 	
 	
 	public void writeRankingText() throws Exception{
-		URL textURL = getClass().getResource("ranking.txt");
-		
-		PrintStream out = new PrintStream(
-				new FileOutputStream(textURL.getPath()));
-        for (int i = 0; i < 5; i++) {
-            out.println(names[i]);
-            out.println(scores[i]);
+        try (BufferedWriter out = Files.newBufferedWriter(rankingPath, StandardCharsets.UTF_8)) {
+            for (int i = 0; i < names.length; i++) {
+                out.write(names[i]);
+                out.newLine();
+                out.write(Integer.toString(scores[i]));
+                out.newLine();
+            }
         }
 	}
 	

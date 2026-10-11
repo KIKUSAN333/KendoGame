@@ -80,7 +80,7 @@ _esc2key() ## Convert escape sequences to key names
 
 _get_key()
 {
-    _key
+    _key || return 1
     case $_KEY in
         "$ESC") _keys
                 _esc2key "$ESC$_KEYS" _KEY
@@ -90,7 +90,7 @@ _get_key()
 
 while [ 1 ]
 do
-    _get_key
+    _get_key || break
     if [ "$_KEY" != "$Cj" ]    # avoid duplicated '\n'
     then 
 	echo "$_KEY"

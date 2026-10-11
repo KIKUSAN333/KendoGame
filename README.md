@@ -8,19 +8,21 @@ PowerShell またはコマンドプロンプト（cmd）で、このディレク
 端末は横81桁以上・縦25行以上に広げてください。
 
 ```powershell
-powershell .\play.ps1
+powershell .\scripts\play.ps1
 ```
 
 「スクリプトの実行が無効」と表示される場合は、次を使ってください。
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\play.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\play.ps1
 ```
 
 この指定は今回起動する PowerShell にだけ適用され、PC 全体の実行ポリシーは変更しません。
 
 自動でコンパイルして起動します。Enter は不要です。Esc または Ctrl+C で終了します。
 IDE の出力パネルや PowerShell ISE ではなく、入力できる端末で実行してください。
+
+## 操作
 
 | 場面 | キー | 操作 |
 | --- | --- | --- |

@@ -7,4 +7,4 @@ Player3
 Player4
 30
 Player5
-10
+15

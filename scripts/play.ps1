@@ -2,7 +2,8 @@
 $ErrorActionPreference = 'Stop'
 if ([Console]::IsInputRedirected) { throw 'Run in an interactive Windows Terminal or PowerShell console.' }
 # 起動前の設定を保存
-Push-Location $PSScriptRoot
+$projectRoot = Split-Path -Parent $PSScriptRoot
+Push-Location $projectRoot
 $game = $null
 $oldControlC = [Console]::TreatControlCAsInput
 $oldOutputEncoding = [Console]::OutputEncoding
@@ -11,16 +12,16 @@ try {
     # Java ソースをコンパイル
     $java = (Get-Command java -ErrorAction Stop).Source
     $javac = (Get-Command javac -ErrorAction Stop).Source
-    New-Item -ItemType Directory -Force -Path bin | Out-Null
+    New-Item -ItemType Directory -Force -Path build | Out-Null
     $sources = @(Get-ChildItem -LiteralPath src -Filter '*.java' | ForEach-Object FullName)
-    & $javac -encoding UTF-8 -d bin $sources
+    & $javac -encoding UTF-8 -d build $sources
     if ($LASTEXITCODE -ne 0) { throw 'Java compilation failed.' }
 
     # Java を起動し、標準入力へ接続
     $info = New-Object System.Diagnostics.ProcessStartInfo
     $info.FileName = $java
-    $info.Arguments = '-Dkendo.ansi=true -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -cp "bin;src" Model'
-    $info.WorkingDirectory = $PSScriptRoot
+    $info.Arguments = '-Dkendo.ansi=true -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -cp "build;resources" Model'
+    $info.WorkingDirectory = $projectRoot
     $info.UseShellExecute = $false
     $info.RedirectStandardInput = $true
     [Console]::TreatControlCAsInput = $true
